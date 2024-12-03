@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+
+
 public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
@@ -17,6 +19,8 @@ this.gp=gp;
 this.keyH=keyH;
 
 setDefaultValues();
+getPlayerImage();
+
     }
 
     public void setDefaultValues(){
@@ -25,20 +29,27 @@ setDefaultValues();
         speed=4;
         direction ="down";
     }
+
     public void getPlayerImage(){
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream(""));
-            up2 = ImageIO.read(getClass().getResourceAsStream(""));
-            down1 = ImageIO.read(getClass().getResourceAsStream(""));
-            down2 = ImageIO.read(getClass().getResourceAsStream(""));
-            left1 = ImageIO.read(getClass().getResourceAsStream(""));
-            left2 = ImageIO.read(getClass().getResourceAsStream(""));
-            right1 = ImageIO.read(getClass().getResourceAsStream(""));
-            right2 = ImageIO.read(getClass().getResourceAsStream(""));
+          up1=ImageIO.read(getClass().getResourceAsStream("/player/doc_u1.png"));
+          up2=ImageIO.read(getClass().getResourceAsStream("/player/doc_up2.png"));
+          up3=ImageIO.read(getClass().getResourceAsStream("/player/doc_up3.png"));
+            down1=ImageIO.read(getClass().getResourceAsStream("/player/doc_down1.png"));
+            down2=ImageIO.read(getClass().getResourceAsStream("/player/doc_down2.png"));
+            down3=ImageIO.read(getClass().getResourceAsStream("/player/doc_down3.png"));
+            left1=ImageIO.read(getClass().getResourceAsStream("/player/doc_left1.png"));
+            left2=ImageIO.read(getClass().getResourceAsStream("/player/doc_left2.png"));
+            left3=ImageIO.read(getClass().getResourceAsStream("/player/doc_left3.png"));
+            right1=ImageIO.read(getClass().getResourceAsStream("/player/doc_right1.png"));
+            right2=ImageIO.read(getClass().getResourceAsStream("/player/doc_right2.png"));
+            right3=ImageIO.read(getClass().getResourceAsStream("/player/doc_right3.png"));
+
         }catch(IOException e){
             e.printStackTrace();
         }
     }
+
     public void update()
     {
         if(keyH.upPressed|| keyH.downPressed|| keyH.leftPressed|| keyH.rightPressed){
@@ -61,26 +72,26 @@ setDefaultValues();
             }
 
             spriteCounter++;
-            if(spriteCounter>14)
+            if(spriteCounter>10)
             {
-                if(spriteNum == 1)
-                {
-                    spriteNum = 2;
-                } else if (spriteNum == 2)
+                spriteNum++;
+                if(spriteNum>3)
                 {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
+        } else {
+            spriteNum=2;
         }
 
 
     }
+
+
     public void draw(Graphics2D g2)
     {
-//        g2.setColor(Color.cyan);
-//
-//        g2.fillRect(x,y,gp.tileSize,gp.tileSize);
+
 
         BufferedImage image =null;
 
@@ -94,6 +105,10 @@ setDefaultValues();
                 {
                     image=up2;
                 }
+                if(spriteNum==3)
+                {
+                    image=up3;
+                }
                 break;
             case "down":
                 if(spriteNum==1)
@@ -103,6 +118,10 @@ setDefaultValues();
                 if(spriteNum==2)
                 {
                     image=down2;
+                }
+                if(spriteNum==3)
+                {
+                    image=down3;
                 }
                 break;
             case "left":
@@ -114,6 +133,10 @@ setDefaultValues();
                 {
                     image=left2;
                 }
+                if(spriteNum==3)
+                {
+                    image=left3;
+                }
                 break;
             case "right":
                 if(spriteNum==1)
@@ -123,6 +146,10 @@ setDefaultValues();
                 if(spriteNum==2)
                 {
                     image=right2;
+                }
+                if(spriteNum==3)
+                {
+                    image=right3;
                 }
                 break;
         }
