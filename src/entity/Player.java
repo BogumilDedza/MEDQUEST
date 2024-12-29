@@ -14,18 +14,29 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
 
-    public Player(GamePanel gp,KeyHandler keyH){
-this.gp=gp;
-this.keyH=keyH;
+    public final int screenX;
+    public final int screenY;
 
-setDefaultValues();
-getPlayerImage();
+
+    public Player(GamePanel gp,KeyHandler keyH){
+
+        this.gp=gp;
+        this.keyH=keyH;
+
+        screenX =gp.screenWidth/2 - (gp.tileSize/2);
+        screenY =gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidPoint = new Rectangle(8,12,32,32); // wykrywanie kolizji na postac nakladamy niewidzialny kwadrat ktory wykrywa nam czy postac zderzyła się z panelem.
+
+
+    setDefaultValues();
+    getPlayerImage();
 
     }
 
     public void setDefaultValues(){
-        x=100;
-        y=100;
+        worldX=gp.tileSize * 23;
+        worldY=gp.tileSize * 21;
         speed=4;
         direction ="down";
     }
@@ -56,20 +67,43 @@ getPlayerImage();
             if(keyH.upPressed )
             {
                 direction ="up";
-                y -= speed;
-            } else if (keyH.downPressed )
+            }
+            else if (keyH.downPressed )
             {
                 direction ="down";
-                y += speed;
-            } else if (keyH.leftPressed )
+            }
+            else if (keyH.leftPressed )
             {
                 direction ="left";
-                x -= speed;
-            }else if (keyH.rightPressed )
+            }
+            else if (keyH.rightPressed )
             {
                 direction ="right";
-                x += speed;
             }
+
+            // sprawdzenie kolizji gracza
+            collisionOn = false;
+            gp.collsionDetector.checkTile(this);
+
+            if(collisionOn == false){
+                switch(direction){
+                    case "up":
+                        worldY -= speed;
+                    break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+
+
+                }
+            }
+
 
             spriteCounter++;
             if(spriteCounter>10)
@@ -88,6 +122,29 @@ getPlayerImage();
 
     }
 
+    public void updatePosition() {
+
+
+
+        if(worldX < screenX) {
+            worldX = screenX;
+        }
+
+
+        if(worldX > gp.tileSize * gp.maxWorldCol - screenX) {
+            worldX = gp.tileSize * gp.maxWorldCol - screenX;
+        }
+
+
+        if(worldY < screenY) {
+            worldY = screenY;
+        }
+
+
+        if(worldY > gp.tileSize * gp.maxWorldRow - screenY) {
+            worldY = gp.tileSize * gp.maxWorldRow - screenY;
+        }
+    }
 
     public void draw(Graphics2D g2)
     {
@@ -153,6 +210,6 @@ getPlayerImage();
                 }
                 break;
         }
-        g2.drawImage(image,x,y,gp.tileSize,gp.tileSize,null);
+        g2.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null);
     }
 }
