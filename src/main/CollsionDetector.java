@@ -11,6 +11,7 @@ public class CollsionDetector {
     this.gp = gp;
     }
 
+    //Rozpoznawanie Tile na Mapie
     public void checkTile(Entity entity){
 
         int entitysideLeftWorldX = entity.worldX + entity.solidPoint.x;
@@ -51,7 +52,7 @@ public class CollsionDetector {
                 }
                 break;
             case "right":
-                entityRightCol =(entitysideUpWorldY + entity.speed)/gp.tileSize;
+                entityRightCol =(entitysideRightWorldX + entity.speed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 =gp.tileM.mapTileNum[entityRightCol][entityDownRow];
                 if(gp.tileM.tiles[tileNum1].collision == true || gp.tileM.tiles[tileNum2].collision == true){
@@ -60,5 +61,50 @@ public class CollsionDetector {
                 break;
         }
 
+    }
+    // Sprawdzanie kolizji z npc
+    public int checkEntity(Entity entity, Entity[] target) {
+        int index = 999;
+
+        for (int i = 0; i < target.length; i++) {
+            if (target[i] != null) {
+
+                int entityLeftWorldX = entity.worldX + entity.solidPoint.x;
+                int entityRightWorldX = entity.worldX + entity.solidPoint.x + entity.solidPoint.width;
+                int entityTopWorldY = entity.worldY + entity.solidPoint.y;
+                int entityBottomWorldY = entity.worldY + entity.solidPoint.y + entity.solidPoint.height;
+
+
+                int targetLeftWorldX = target[i].worldX + target[i].solidPoint.x;
+                int targetRightWorldX = target[i].worldX + target[i].solidPoint.x + target[i].solidPoint.width;
+                int targetTopWorldY = target[i].worldY + target[i].solidPoint.y;
+                int targetBottomWorldY = target[i].worldY + target[i].solidPoint.y + target[i].solidPoint.height;
+
+
+                int nextEntityLeftWorldX = entityLeftWorldX;
+                int nextEntityRightWorldX = entityRightWorldX;
+                int nextEntityTopWorldY = entityTopWorldY;
+                int nextEntityBottomWorldY = entityBottomWorldY;
+
+                switch(entity.direction) {
+                    case "up": nextEntityTopWorldY -= entity.speed; break;
+                    case "down": nextEntityBottomWorldY += entity.speed; break;
+                    case "left": nextEntityLeftWorldX -= entity.speed; break;
+                    case "right": nextEntityRightWorldX += entity.speed; break;
+                }
+
+
+                if (nextEntityRightWorldX > targetLeftWorldX &&
+                        nextEntityLeftWorldX < targetRightWorldX &&
+                        nextEntityBottomWorldY > targetTopWorldY &&
+                        nextEntityTopWorldY < targetBottomWorldY) {
+                    if (target[i].collisionOn) {
+                        entity.collisionOn = true;
+                        index = i;
+                    }
+                }
+            }
+        }
+        return index;
     }
 }

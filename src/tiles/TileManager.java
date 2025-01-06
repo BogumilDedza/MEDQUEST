@@ -1,8 +1,11 @@
 package tiles;
 
 import main.GamePanel;
+import main.Toolbox;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,43 +20,43 @@ public class TileManager {
     public TileManager(GamePanel gp){
         this.gp=gp;
 
-        tiles = new Tiles[10]; // How many tiles can I have in my game you can change later to add more tile to game.
+        tiles = new Tiles [20];                                                                                  
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
-        loadMap("/maps/map2.txt");
+        loadMap("/maps/map1.txt");
     }
 
     public void getTileImage(){
+
+
+            setup(0,"mur",true);
+            setup(1,"Trawa1",true);
+            setup(2,"Trawa2",true);
+            setup(3,"Trawa3",true);
+            setup(4,"deska1",false);
+            setup(5,"deska2",false);
+            setup(6,"deska4",false);
+            setup(7,"kafel1",false);
+            setup(8,"kafel2",false);
+            setup(9,"kafel3",false);
+
+
+    }
+
+    public void setup(int index,String imageName,boolean collision){
+        Toolbox toolbox = new Toolbox();
         try{
 
-            tiles[0]= new Tiles();
-            tiles[0].image=ImageIO.read(getClass().getResourceAsStream("/tiles/K1.png"));
-            tiles[0].collision = true;
-
-            tiles[1]= new Tiles();
-            tiles[1].image=ImageIO.read(getClass().getResourceAsStream("/tiles/K2.png"));
-
-            tiles[2]= new Tiles();
-            tiles[2].image=ImageIO.read(getClass().getResourceAsStream("/tiles/K3.png"));
-
-            tiles[3]= new Tiles();
-            tiles[3].image=ImageIO.read(getClass().getResourceAsStream("/tiles/K4.png"));
-
-            tiles[4]= new Tiles();
-            tiles[4].image=ImageIO.read(getClass().getResourceAsStream("/tiles/K5.png"));
-
-            tiles[5]= new Tiles();
-            tiles[5].image=ImageIO.read(getClass().getResourceAsStream("/tiles/D4.png"));
-
-            tiles[6]= new Tiles();
-            tiles[6].image=ImageIO.read(getClass().getResourceAsStream("/tiles/D5.png"));
-
+            tiles[index] = new Tiles();
+            tiles[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/"+ imageName + ".png"));
+            tiles[index].image = toolbox.scaleImage(tiles[index].image,gp.tileSize,gp.tileSize);
+            tiles[index].collision = collision;
 
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
 
+    }
     public void loadMap(String filePath){
         try{
             InputStream is =getClass().getResourceAsStream(filePath);
@@ -111,7 +114,7 @@ public class TileManager {
           && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
 
           {
-              g2.drawImage(tiles[tilesNum].image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+              g2.drawImage(tiles[tilesNum].image,screenX,screenY,null);
           }
 
           worldCol++;

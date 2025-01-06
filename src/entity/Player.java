@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.Toolbox;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 
 public class Player extends Entity{
-    GamePanel gp;
+
     KeyHandler keyH;
 
     public final int screenX;
@@ -20,7 +21,9 @@ public class Player extends Entity{
 
     public Player(GamePanel gp,KeyHandler keyH){
 
-        this.gp=gp;
+        super(gp);
+
+
         this.keyH=keyH;
 
         screenX =gp.screenWidth/2 - (gp.tileSize/2);
@@ -34,6 +37,7 @@ public class Player extends Entity{
 
     }
 
+    //Pozycja Podstawowa NPC
     public void setDefaultValues(){
         worldX=gp.tileSize * 23;
         worldY=gp.tileSize * 21;
@@ -41,25 +45,23 @@ public class Player extends Entity{
         direction ="down";
     }
 
+    // Sprity Gracza
     public void getPlayerImage(){
-        try{
-          up1=ImageIO.read(getClass().getResourceAsStream("/player/doc_u1.png"));
-          up2=ImageIO.read(getClass().getResourceAsStream("/player/doc_up2.png"));
-          up3=ImageIO.read(getClass().getResourceAsStream("/player/doc_up3.png"));
-            down1=ImageIO.read(getClass().getResourceAsStream("/player/doc_down1.png"));
-            down2=ImageIO.read(getClass().getResourceAsStream("/player/doc_down2.png"));
-            down3=ImageIO.read(getClass().getResourceAsStream("/player/doc_down3.png"));
-            left1=ImageIO.read(getClass().getResourceAsStream("/player/doc_left1.png"));
-            left2=ImageIO.read(getClass().getResourceAsStream("/player/doc_left2.png"));
-            left3=ImageIO.read(getClass().getResourceAsStream("/player/doc_left3.png"));
-            right1=ImageIO.read(getClass().getResourceAsStream("/player/doc_right1.png"));
-            right2=ImageIO.read(getClass().getResourceAsStream("/player/doc_right2.png"));
-            right3=ImageIO.read(getClass().getResourceAsStream("/player/doc_right3.png"));
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        up1=setup("/player/doc_u1");
+        up2=setup("/player/doc_up2");
+        up3=setup("/player/doc_up3");
+        down1=setup("/player/doc_down1");
+        down2=setup("/player/doc_down2");
+        down3=setup("/player/doc_down3");
+        left1=setup("/player/doc_left1");
+        left2=setup("/player/doc_left2");
+        left3=setup("/player/doc_left3");
+        right1=setup("/player/doc_right1");
+        right2=setup("/player/doc_right2");
+        right3=setup("/player/doc_right3");
     }
+
+
 
     public void update()
     {
@@ -85,6 +87,17 @@ public class Player extends Entity{
             collisionOn = false;
             gp.collsionDetector.checkTile(this);
 
+            // sprawdzanie kolizji z pacjentem
+
+            int npcIndex =gp.collsionDetector.checkEntity(this,gp.NPC_Patient);
+            TouchNpc(npcIndex);
+
+            int npc1Index = gp.collsionDetector.checkEntity(this, gp.NPC_Patient2);
+            TouchNpc1(npc1Index);
+
+            int npc2Index = gp.collsionDetector.checkEntity(this, gp.NPC_Patient3);
+            TouchNpc2(npc2Index);
+
             if(collisionOn == false){
                 switch(direction){
                     case "up":
@@ -105,6 +118,7 @@ public class Player extends Entity{
             }
 
 
+
             spriteCounter++;
             if(spriteCounter>10)
             {
@@ -122,6 +136,38 @@ public class Player extends Entity{
 
     }
 
+    //Wykrywanie kolizji z NPC w celu rozmowy
+    public void TouchNpc1(int i) {
+        if(i != 999) {
+            if(gp.keyH.ePressed) {
+                gp.gameState = gp.dialogueState;
+                gp.NPC_Patient2[i].speak();
+            }
+        }
+    }
+    //Wykrywanie kolizji z NPC w celu rozmowy
+    public void TouchNpc2(int i) {
+        if(i != 999) {
+            if(gp.keyH.ePressed) {
+                gp.gameState = gp.dialogueState;
+                gp.NPC_Patient3[i].speak();
+            }
+        }
+    }
+    //Wykrywanie kolizji z NPC w celu rozmowy
+    public void TouchNpc(int i){
+        if(i != 999){
+            if(gp.keyH.ePressed ) {
+
+                    gp.gameState = gp.dialogueState;
+                    gp.NPC_Patient[i].speak();
+                    gp.keyH.ePressed = false;
+            }
+        }
+
+    }
+
+    // Aktualizacja pozycji Gracza
     public void updatePosition() {
 
 
@@ -146,6 +192,8 @@ public class Player extends Entity{
         }
     }
 
+
+//Renderowanie Gracza na Planszy
     public void draw(Graphics2D g2)
     {
 
@@ -210,6 +258,6 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image,screenX,screenY,gp.tileSize,gp.tileSize,null);
+        g2.drawImage(image,screenX,screenY,null);
     }
 }
