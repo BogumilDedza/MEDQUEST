@@ -85,7 +85,7 @@ public class TreatmentMinigame1 {
             return;
         }
 
-        if (!showRestartButton) {  // Only handle choices if restart isn't showing
+        if (!showRestartButton) {
             for (int i = 0; i < buttonBounds.length; i++) {
                 if (buttonBounds[i].contains(mousePosition)) {
                     handleChoice(i);
@@ -225,14 +225,14 @@ public class TreatmentMinigame1 {
     }
 
     public void draw(Graphics2D g2) {
-        // Draw semi-transparent black background
+
         g2.setColor(new Color(64, 64, 64, 200));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-        // Draw dialogue window
+
         drawDialogueWindow(g2);
 
-        // Draw choice buttons
+
         for (int i = 0; i < buttonBounds.length; i++) {
             boolean isHovered = buttonBounds[i].contains(mousePosition);
             drawButton(g2, buttonBounds[i], buttonLabels[i], isHovered);

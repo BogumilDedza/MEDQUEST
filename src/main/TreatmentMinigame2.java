@@ -128,9 +128,8 @@ public class TreatmentMinigame2 {
     }
 
     private void showEndGameScene() {
-        // Your logic to transition to the end game scene.
-        // For example, changing gameState to a different state or showing an end-game screen.
-        gp.gameState = gp.endScreenState; // Assuming you have an end game state
+
+        gp.gameState = gp.endScreenState;
         gp.repaint();
     }
 
@@ -151,7 +150,7 @@ public class TreatmentMinigame2 {
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        showEndGameScene(); // Transition to end game scene
+                        showEndGameScene();
                     }
                 }, 3000);
             }else{
@@ -200,16 +199,16 @@ public class TreatmentMinigame2 {
     }
 
     private void drawButton(Graphics2D g2, Rectangle bounds, String label, boolean isHovered) {
-        // Draw button background
+
         g2.setColor(isHovered ? new Color(30, 136, 229) : new Color(0,0,0));
         g2.fill(bounds);
 
-        // Draw button border
+
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(2));
         g2.draw(bounds);
 
-        // Draw button text
+
         g2.setFont(gp.ui.MyFont.deriveFont(Font.PLAIN,20));
         FontMetrics fm = g2.getFontMetrics();
         int textX = bounds.x + (bounds.width - fm.stringWidth(label))/2;
@@ -223,14 +222,14 @@ public class TreatmentMinigame2 {
         int x = (gp.screenWidth - width) / 2;
         int y = 32 ;
 
-        // Draw dialogue box
+
         g2.setColor(new Color(0, 0, 0, 220));
         g2.fillRoundRect(x, y, width, height, 15, 15);
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(x, y, width, height, 15, 15);
 
-        // Draw text
+
         g2.setFont(gp.ui.MyFont.deriveFont(Font.PLAIN,30));
         FontMetrics fm = g2.getFontMetrics();
         String[] lines = currentDialogue.split("\n");
@@ -249,16 +248,16 @@ public class TreatmentMinigame2 {
         g2.setColor(new Color(64, 64, 64, 200));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-        // Draw dialogue window
+
         drawDialogueWindow(g2);
 
-        // Draw choice buttons
+
         for (int i = 0; i < buttonBounds.length; i++) {
             boolean isHovered = buttonBounds[i].contains(mousePosition);
             drawButton(g2, buttonBounds[i], buttonLabels[i], isHovered);
         }
 
-        // Draw restart button if needed
+
         if (showRestartButton) {
             boolean isHovered = restartButtonBounds.contains(mousePosition);
             drawButton(g2, restartButtonBounds, "Powrót do mapy", isHovered);
