@@ -74,12 +74,10 @@ public class CollsionDetector {
                 int entityTopWorldY = entity.worldY + entity.solidPoint.y;
                 int entityBottomWorldY = entity.worldY + entity.solidPoint.y + entity.solidPoint.height;
 
-
                 int targetLeftWorldX = target[i].worldX + target[i].solidPoint.x;
                 int targetRightWorldX = target[i].worldX + target[i].solidPoint.x + target[i].solidPoint.width;
                 int targetTopWorldY = target[i].worldY + target[i].solidPoint.y;
                 int targetBottomWorldY = target[i].worldY + target[i].solidPoint.y + target[i].solidPoint.height;
-
 
                 int nextEntityLeftWorldX = entityLeftWorldX;
                 int nextEntityRightWorldX = entityRightWorldX;
@@ -92,7 +90,6 @@ public class CollsionDetector {
                     case "left": nextEntityLeftWorldX -= entity.speed; break;
                     case "right": nextEntityRightWorldX += entity.speed; break;
                 }
-
 
                 if (nextEntityRightWorldX > targetLeftWorldX &&
                         nextEntityLeftWorldX < targetRightWorldX &&

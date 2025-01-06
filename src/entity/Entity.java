@@ -40,6 +40,7 @@ public class Entity {
         dialogueIndex++;
     };
 
+    //Renderowanie NPC
     public void draw(Graphics2D g2) {
 
         BufferedImage image = down1; // Podstawowa pozycja npc

@@ -20,18 +20,11 @@ public class Player extends Entity{
 
 
     public Player(GamePanel gp,KeyHandler keyH){
-
         super(gp);
-
-
         this.keyH=keyH;
-
         screenX =gp.screenWidth/2 - (gp.tileSize/2);
         screenY =gp.screenHeight/2 - (gp.tileSize/2);
-
-        solidPoint = new Rectangle(8,12,32,32); // wykrywanie kolizji na postac nakladamy niewidzialny kwadrat ktory wykrywa nam czy postac zderzyła się z panelem.
-
-
+        solidPoint = new Rectangle(8,12,20,32); // wykrywanie kolizji na postac nakladamy niewidzialny kwadrat ktory wykrywa nam czy postac zderzyła się z panelem.
     setDefaultValues();
     getPlayerImage();
 
@@ -40,7 +33,7 @@ public class Player extends Entity{
     //Pozycja Podstawowa NPC
     public void setDefaultValues(){
         worldX=gp.tileSize * 23;
-        worldY=gp.tileSize * 21;
+        worldY=gp.tileSize * 12;
         speed=4;
         direction ="down";
     }
@@ -88,7 +81,6 @@ public class Player extends Entity{
             gp.collsionDetector.checkTile(this);
 
             // sprawdzanie kolizji z pacjentem
-
             int npcIndex =gp.collsionDetector.checkEntity(this,gp.NPC_Patient);
             TouchNpc(npcIndex);
 
@@ -116,8 +108,6 @@ public class Player extends Entity{
 
                 }
             }
-
-
 
             spriteCounter++;
             if(spriteCounter>10)
@@ -170,34 +160,26 @@ public class Player extends Entity{
     // Aktualizacja pozycji Gracza
     public void updatePosition() {
 
-
-
         if(worldX < screenX) {
             worldX = screenX;
         }
-
 
         if(worldX > gp.tileSize * gp.maxWorldCol - screenX) {
             worldX = gp.tileSize * gp.maxWorldCol - screenX;
         }
 
-
         if(worldY < screenY) {
             worldY = screenY;
         }
-
 
         if(worldY > gp.tileSize * gp.maxWorldRow - screenY) {
             worldY = gp.tileSize * gp.maxWorldRow - screenY;
         }
     }
 
-
 //Renderowanie Gracza na Planszy
     public void draw(Graphics2D g2)
     {
-
-
         BufferedImage image =null;
 
         switch(direction){

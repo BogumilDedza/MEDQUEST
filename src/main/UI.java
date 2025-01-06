@@ -14,7 +14,7 @@ public String message = "";
 int messageCounter = 0;
 public String currentDialoge ="";
 public int commandNum =0;
-public int TitleScreenState =0; // 0: first screen, 1 second screen,2 third screen
+public int TitleScreenState =0; // 0: pierwsza scena, 1 druga scena,2 trzecia scena
 private int currentDiseasePage =0;
 private final int TotalDiseasePages=3;// ilosc stron z chorobami
 
@@ -37,6 +37,7 @@ public void showMessage(String text){
     message=text;
     messageOn=true;
 }
+
 public void draw(Graphics2D g2){
     this.g2 =g2;
 
@@ -59,7 +60,6 @@ public void draw(Graphics2D g2){
 
 
     }
-
     if(gp.gameState == gp.playState){
         //do play state stuff
     }
@@ -70,19 +70,18 @@ public void draw(Graphics2D g2){
         drawDialogueScreen();
     }
 }
-// mozesz skopiowac ta funkcje dla informacji do chorob //
+
+// Informacje o grze
 public void drawGameInfoScreen() {
     g2.setColor(new Color(64, 64, 64));
     g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-    // Title
     g2.setFont(g2.getFont().deriveFont(Font.BOLD, 64F));
     String text = "Jak grać?";
     int x = getXforPause(text);
     int y = gp.tileSize * 2;
     drawTextWithShadow(text, x, y);
 
-    // Game Information Text
     g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
     y += gp.tileSize;
 
@@ -119,7 +118,6 @@ public void drawGameInfoScreen() {
     y += 40;
     drawTextWithShadow(text, x, y);
 
-    // Return Button
     g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
     text = "Powrót do Menu Głównego";
     x = getXforPause(text);
@@ -131,19 +129,19 @@ public void drawGameInfoScreen() {
     }
 }
 
-    // tutaj do zmiany informacje na temat chorob oraz nawigacja
+    //Informacje o Chorobach
     public void drawDiseaseInfoScreen() {
         g2.setColor(new Color(64, 64, 64));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-        // Title
+
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 64F));
         String text = "Informacje o chorobach";
         int x = getXforPause(text);
         int y = gp.tileSize * 3/2;
         drawTextWithShadow(text, x, y);
 
-        // Disease Information
+
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 22F));
         x = gp.tileSize;
         y += gp.tileSize * 2;
@@ -160,7 +158,7 @@ public void drawGameInfoScreen() {
                 break;
         }
 
-        // Navigation Controls
+
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24F));
         text = "<- A";
         drawTextWithShadow(text, gp.tileSize, gp.screenHeight - gp.tileSize * 2);
@@ -172,7 +170,7 @@ public void drawGameInfoScreen() {
         x = getXforPause(text);
         drawTextWithShadow(text, x, gp.screenHeight - gp.tileSize * 2);
 
-        // Return Button
+
         text = "Powrót do Menu Głównego";
         x = getXforPause(text);
         y = gp.screenHeight - gp.tileSize;
@@ -186,7 +184,7 @@ public void drawGameInfoScreen() {
 
 
 
-    // Updated disease information methods with shadows
+    // Zawartość strony do Informacje o Chorobach
     private void drawDiseaseOneWithShadow(int x, int y) {
         y-=50;
         x-=40;
@@ -208,7 +206,7 @@ public void drawGameInfoScreen() {
             y += 40;
         }
     }
-
+    // Zawartość strony do Informacje o Chorobach
     private void drawDiseaseTwoWithShadow(int x, int y) {
         y-=50;
         x-=40;
@@ -228,7 +226,7 @@ public void drawGameInfoScreen() {
             y += 40;
         }
     }
-
+    // Zawartość strony do Informacje o Chorobach
     private void drawDiseaseThreeWithShadow(int x, int y) {
         y-=50;
         x-=40;
@@ -250,13 +248,15 @@ public void drawGameInfoScreen() {
             y += 40;
         }
     }
-
+    //Rysowanie cienia do teksyu
     private void drawTextWithShadow(String text, int x, int y) {
         g2.setColor(Color.black);
         g2.drawString(text, x + 3, y + 3);
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
     }
+
+    //Rysowanie menu
     public void drawTitleScreen(){
 
     if(TitleScreenState ==0)
@@ -269,24 +269,18 @@ public void drawGameInfoScreen() {
         int x = getXforPause(text) - gp.tileSize/2 ;
         int y = gp.tileSize * 3;
 
-        //shadow text
         g2.setColor(Color.black);
         g2.drawString(text,x+5,y+5);
 
-        //main color
         g2.setColor(Color.white);
         g2.drawString(text,x,y);
 
-        // draw doctor on screen
         x=gp.screenWidth/2 - (gp.tileSize*2)/2;
         y += gp.tileSize*2;
         y -= gp.tileSize;
 
         g2.drawImage(gp.player.down2,x,y,gp.tileSize*2,gp.tileSize * 2,null);
-        //dodaj pacjentów
 
-
-        //Menu
         g2.setFont(g2.getFont().deriveFont(Font.TRUETYPE_FONT,36f));
 
         text = "NOWA GRA";
@@ -296,7 +290,6 @@ public void drawGameInfoScreen() {
         g2.setColor(Color.black);
         g2.drawString(text,x+3,y+3);
 
-        //main color
         g2.setColor(Color.white);
         g2.drawString(text,x,y);
 
@@ -319,8 +312,6 @@ public void drawGameInfoScreen() {
             g2.drawString(">",x-gp.tileSize,y);
         }
 
-
-
         text = "INFORMACJE O GRZE";
         x = getXforPause(text) - gp.tileSize/2 ;
         y += gp.tileSize ;
@@ -328,7 +319,6 @@ public void drawGameInfoScreen() {
         g2.setColor(Color.black);
         g2.drawString(text,x+3,y+3);
 
-        //main color
         g2.setColor(Color.white);
         g2.drawString(text,x,y);
 
@@ -343,7 +333,7 @@ public void drawGameInfoScreen() {
         g2.setColor(Color.black);
         g2.drawString(text,x+3,y+3);
 
-        //main color
+
         g2.setColor(Color.white);
         g2.drawString(text,x,y);
 
@@ -357,7 +347,6 @@ public void drawGameInfoScreen() {
         g2.setColor(Color.black);
         g2.drawString(text,x+3,y+3);
 
-        //main color
         g2.setColor(Color.white);
         g2.drawString(text,x,y);
 
@@ -367,43 +356,37 @@ public void drawGameInfoScreen() {
     }
 
 }
+//Scena koncowa gry
     public void drawEndScreen(Graphics2D g2) {
 
         g2.setColor(new Color(64, 64, 64, 200));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-
         g2.setFont(MyFont.deriveFont(Font.PLAIN, 30F));
         g2.setColor(Color.WHITE);
 
-        // Center the title
         String title = "Gratulacje!";
         int titleX = getCenteredX(g2, title);
         int titleY = gp.tileSize * 3;
         g2.drawString(title, titleX, titleY);
 
-        // Center the message
-        String message = "Ukończyłeś Grę!";
+        String message = "Ukończyłeś Grę! MED-QUEST";
         int messageX = getCenteredX(g2, message);
         int messageY = titleY + gp.tileSize * 2;
         g2.drawString(message, messageX, messageY);
 
-        // Center the footer button text
-        String button = "Wykonana przez Bogumił Dędza 193610";
+        String button = "Bogumił Dędza 193610";
         int buttonX = getCenteredX(g2, button);
         int buttonY = gp.screenHeight - gp.tileSize * 2;
         g2.drawString(button, buttonX, buttonY);
     }
-
-
 
     private int getCenteredX(Graphics2D g2, String text) {
         FontMetrics metrics = g2.getFontMetrics();
         int textWidth = metrics.stringWidth(text);
         return (gp.screenWidth - textWidth) / 2;
     }
-
-
+    //Okno dialogowe
     public void drawDialogueScreen(){
 
     // okno dialogowe
@@ -423,8 +406,8 @@ public void drawGameInfoScreen() {
         y += 40;
     }
 
-
 }
+//Rysowanie okna
 public void drawSWindow(int x,int y,int width,int height){
     Color c = new Color(0,0,0,220);
     g2.setColor(c);
@@ -435,7 +418,7 @@ public void drawSWindow(int x,int y,int width,int height){
     g2.setStroke(new BasicStroke(5));
     g2.drawRoundRect(x+5,y+5,width-10,height-10,30,30 );
 }
-
+//Rysowanie Pauzy
 public void drawPause(){
     g2.setFont(g2.getFont().deriveFont(Font.HANGING_BASELINE,80));
     String text = "Pause";
@@ -444,20 +427,21 @@ public void drawPause(){
 
     g2.drawString(text,x,y);
 }
-
+//Rysowanie Miejsca gdzie pauza jest na środku ekranu
 public int getXforPause(String text){
     int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
     int x = gp.screenWidth/2 - length/2;
     return x;
 }
 
+//Mechanizm przejscia do porzedniej strony w Informacje o Chorobach
 public void previousDiseasePage(){
     currentDiseasePage--;
     if(currentDiseasePage<0){
         currentDiseasePage =TotalDiseasePages-1;
     }
 }
-
+    //Mechanizm przejscia do następnej strony w Informacje o Chorobach
 public void  nextDiseasePage(){
     currentDiseasePage++;
     if(currentDiseasePage >= TotalDiseasePages){

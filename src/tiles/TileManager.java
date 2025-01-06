@@ -19,13 +19,12 @@ public class TileManager {
 
     public TileManager(GamePanel gp){
         this.gp=gp;
-
         tiles = new Tiles [20];                                                                                  
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         loadMap("/maps/map1.txt");
     }
-
+//Wszystkie PNG wykorzystane do tile
     public void getTileImage(){
 
 
@@ -34,19 +33,17 @@ public class TileManager {
             setup(2,"Trawa2",true);
             setup(3,"Trawa3",true);
             setup(4,"deska1",false);
-            setup(5,"deska2",false);
+            setup(5,"kafel1",false);
             setup(6,"deska4",false);
-            setup(7,"kafel1",false);
+            setup(7,"kafel3",false);
             setup(8,"kafel2",false);
-            setup(9,"kafel3",false);
-
+            setup(9,"deska3",false);
 
     }
 
     public void setup(int index,String imageName,boolean collision){
         Toolbox toolbox = new Toolbox();
         try{
-
             tiles[index] = new Tiles();
             tiles[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/"+ imageName + ".png"));
             tiles[index].image = toolbox.scaleImage(tiles[index].image,gp.tileSize,gp.tileSize);
@@ -57,6 +54,7 @@ public class TileManager {
         }
 
     }
+    //Ładowanie mapy
     public void loadMap(String filePath){
         try{
             InputStream is =getClass().getResourceAsStream(filePath);
@@ -92,8 +90,6 @@ public class TileManager {
 
     }
 
-
-
     public void draw(Graphics2D g2){
 
        int worldCol = 0;
@@ -118,7 +114,6 @@ public class TileManager {
           }
 
           worldCol++;
-
 
           if(worldCol == gp.maxWorldCol){
               worldCol = 0;

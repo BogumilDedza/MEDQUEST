@@ -14,12 +14,11 @@ public KeyHandler(GamePanel gp){
     @Override
     public void keyTyped(KeyEvent e) {}
 
-
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-
+        //Stan menu
         if(gp.gameState == gp.titleState){
             if(gp.ui.TitleScreenState == 0) {
                 // Main menu controls
@@ -61,14 +60,14 @@ public KeyHandler(GamePanel gp){
                 // Game info screen controls
                 if(code == KeyEvent.VK_ENTER){
                     gp.ui.TitleScreenState = 0;
-                    gp.ui.commandNum = 2; // Return to "INFORMACJE O GRZE" position
+                    gp.ui.commandNum = 2; // Powrót do INFORMACJE O GRZE
                 }
             }
             else if(gp.ui.TitleScreenState == 2) {
-                // Game info screen controls
+
                 if(code == KeyEvent.VK_ENTER){
                     gp.ui.TitleScreenState = 0;
-                    gp.ui.commandNum = 3; // Return to "INFORMACJE O CHOROBACH" position
+                    gp.ui.commandNum = 3; // Powrót do INFORMACJE O CHOROBACH
                 }
                 if(code == KeyEvent.VK_A){
                     gp.ui.previousDiseasePage();
@@ -80,7 +79,8 @@ public KeyHandler(GamePanel gp){
             }
 
         }
-        //play state
+
+        //Stan gry
         if(gp.gameState == gp.playState){
             if(code == KeyEvent.VK_W){
                 upPressed =true;
@@ -108,7 +108,8 @@ public KeyHandler(GamePanel gp){
                gp.ui.commandNum=0;
             }
         }
-        //pause state
+
+        //Stan Pauzy
         else if(gp.gameState == gp.pauseState){
             if(code == KeyEvent.VK_P){
                 gp.gameState = gp.playState;
@@ -120,6 +121,7 @@ public KeyHandler(GamePanel gp){
                 gp.ui.commandNum=0;
             }
         }
+        //Stan Dialogu
         else if (gp.gameState == gp.dialogueState){
             if(code == KeyEvent.VK_E){
                 gp.gameState = gp.playState;
@@ -130,6 +132,7 @@ public KeyHandler(GamePanel gp){
                 gp.ui.commandNum=0;
             }
         }
+        //Stan minigry
         else if (gp.gameState == gp.minigameState){
             if(code == KeyEvent.VK_E){
                 gp.gameState = gp.playState;
@@ -140,7 +143,7 @@ public KeyHandler(GamePanel gp){
                 gp.ui.commandNum=0;
             }
         }
-
+        // stan ekranu kończącego
         else if (gp.gameState == gp.endScreenState) {
             if (code == KeyEvent.VK_ENTER) {
                 gp.gameState = gp.playState; // Return to the game map
@@ -149,8 +152,6 @@ public KeyHandler(GamePanel gp){
                 gp.gameState = gp.titleState; // Return to main menu
             }
         }
-        // dialogue state
-
 
     }
 
@@ -175,13 +176,13 @@ public KeyHandler(GamePanel gp){
             ePressed = false;
         }
     }
+    //Powrót do menu
     private void returnToTitle() {
         gp.gameState = gp.titleState;
         gp.ui.TitleScreenState = 0;
         gp.ui.commandNum = 0;
-        // Reset player position
+        //Zmiana pozycji gracza na podstawową
         gp.player.setDefaultValues();
-        // Reset other game states as needed
         gp.setupGame();
     }
 

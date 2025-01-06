@@ -11,7 +11,7 @@ public class TreatmentMinigame2 {
     private Font font;
     private Phase phase = Phase.ONE;
     private Timer timer;
-    private int timeLeft = 30;
+    private int timeLeft = 15;
     private int sequenceStep = 0;
     private String currentDialogue = "Poprawnie zdiagnozuj pacjenta";
     private String grade = "";
@@ -112,7 +112,7 @@ public class TreatmentMinigame2 {
     private void startPhaseTwo() {
         phase = Phase.TWO;
         sequenceStep = 0;
-        timeLeft = 30;
+        timeLeft = 15;
         buttonLabels = new String[]{"Plan leczenia i rehabilitacja","Zbadanie miejsca urazu",
                 "Wykonanie RTG w celu potwierdzenia złamania",
                 "Stabilizacja"}; // ilość opci do klikniecia
@@ -153,7 +153,7 @@ public class TreatmentMinigame2 {
                     public void run() {
                         showEndGameScene(); // Transition to end game scene
                     }
-                }, 5000);
+                }, 3000);
             }else{
                 updatePhaseDialog();
             }
@@ -192,10 +192,10 @@ public class TreatmentMinigame2 {
     }
 
     private String getGrade() {
-        if (timeLeft >= 25) return "A";
-        if (timeLeft >= 20) return "B";
-        if (timeLeft >= 15) return "C";
-        if (timeLeft >= 10) return "D";
+        if (timeLeft >= 12) return "A";
+        if (timeLeft >= 10) return "B";
+        if (timeLeft >= 8) return "C";
+        if (timeLeft >= 6) return "D";
         return "E";
     }
 
@@ -272,7 +272,7 @@ public class TreatmentMinigame2 {
     private void resetGame() {
         phase = Phase.ONE;
         sequenceStep = 0;
-        timeLeft = 30;
+        timeLeft = 15;
         currentDialogue = "Poprawnie zdiagnozuj pacjenta";
         grade = "";
         showRestartButton = false;

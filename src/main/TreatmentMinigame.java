@@ -33,6 +33,7 @@ public class TreatmentMinigame {
         setupMouseListener();
     }
 
+    //Inicjalizacja buttons
     private void initializeBounds() {
         int startY = gp.screenHeight / 2;
         int spacing = 50;
@@ -51,6 +52,7 @@ public class TreatmentMinigame {
         );
     }
 
+    //Ustawienie myszki
     private void setupMouseListener() {
         gp.addMouseListener(new MouseAdapter() {
             @Override
@@ -78,7 +80,7 @@ public class TreatmentMinigame {
             }
         });
     }
-
+    //Ustawienie kliknięcia na myszcze
     private void handleMouseClick() {
         if (showRestartButton && restartButtonBounds.contains(mousePosition)) {
             returnToGame();
@@ -95,6 +97,7 @@ public class TreatmentMinigame {
         }
     }
 
+    //Sprawdzonie wyboru gracza w mini grze
     private void handleChoice(int choice) {
         if (phase == Phase.ONE) {
             if (choice == 1) {
@@ -109,6 +112,7 @@ public class TreatmentMinigame {
         gp.repaint();
     }
 
+    //Rozpoczęcie drugiego etapu gry
     private void startPhaseTwo() {
         phase = Phase.TWO;
         sequenceStep = 0;
@@ -118,13 +122,13 @@ public class TreatmentMinigame {
         updatePhaseDialog();
         startTimer();
     }
-
+//
     private void updatePhaseDialog(){
         if(phase == Phase.TWO){
             currentDialogue = "Wybierz w poprawnej kolejności\nPozostały czas: "+ timeLeft + " s";
         }
     }
-
+//Rozpoznawanie sekwencji
     private void handleSequence(String choice) {
         String[] correct = {"Schładzaj miejsce oparzenia letnią wodą.", "Nałóż jałowy, luźny opatrunek.", "Nie przebijaj pęcherzy oraz nie stosuj tłuszczu", "Skontaktuj się z lekarzem w przypadku poważniejszych oparzeń"};
         if (choice.equals(correct[sequenceStep])) {
@@ -144,7 +148,7 @@ public class TreatmentMinigame {
             showRestartButton = true;
         }
     }
-
+// Start timera
     private void startTimer() {
         stopTimer();
         timer = new Timer();
@@ -163,33 +167,37 @@ public class TreatmentMinigame {
             }
         }, 1000, 1000);
     }
-
+// Stop Timera
     private void stopTimer() {
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
     }
-
+// Metoda oceniania gracza za etap 2
     private String getGrade() {
-        if (timeLeft >= 25) return "A";
-        if (timeLeft >= 20) return "B";
-        if (timeLeft >= 15) return "C";
-        if (timeLeft >= 10) return "D";
+        if (timeLeft >= 25)
+            return "A";
+        if (timeLeft >= 20)
+            return "B";
+        if (timeLeft >= 15)
+            return "C";
+        if (timeLeft >= 10)
+            return "D";
         return "E";
     }
-
+//Metoda do rysowania Buttons w minigrze
     private void drawButton(Graphics2D g2, Rectangle bounds, String label, boolean isHovered) {
-        // Draw button background
+
         g2.setColor(isHovered ? new Color(30, 136, 229) : new Color(0,0,0));
         g2.fill(bounds);
 
-        // Draw button border
+
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(2));
         g2.draw(bounds);
 
-        // Draw button text
+
         g2.setFont(gp.ui.MyFont.deriveFont(Font.PLAIN,20));
         FontMetrics fm = g2.getFontMetrics();
         int textX = bounds.x + (bounds.width - fm.stringWidth(label))/2;
@@ -197,20 +205,21 @@ public class TreatmentMinigame {
         g2.drawString(label, textX, textY);
     }
 
+    //Rysowanie okna dialogowego
     private void drawDialogueWindow(Graphics2D g2) {
         int width = gp.screenWidth - (32 * 4);
         int height = 32 * 6;
         int x = (gp.screenWidth - width) / 2;
         int y = 32 ;
 
-        // Draw dialogue box
+
         g2.setColor(new Color(0, 0, 0, 220));
         g2.fillRoundRect(x, y, width, height, 15, 15);
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(x, y, width, height, 15, 15);
 
-        // Draw text
+
         g2.setFont(gp.ui.MyFont.deriveFont(Font.PLAIN,30));
         FontMetrics fm = g2.getFontMetrics();
         String[] lines = currentDialogue.split("\n");
@@ -224,21 +233,19 @@ public class TreatmentMinigame {
         }
     }
 
+    //Rysowanie mini gry
     protected void draw(Graphics2D g2) {
-        // Draw semi-transparent black background
+
         g2.setColor(new Color(64, 64, 64, 200));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-        // Draw dialogue window
         drawDialogueWindow(g2);
 
-        // Draw choice buttons
         for (int i = 0; i < buttonBounds.length; i++) {
             boolean isHovered = buttonBounds[i].contains(mousePosition);
             drawButton(g2, buttonBounds[i], buttonLabels[i], isHovered);
         }
 
-        // Draw restart button if needed
         if (showRestartButton) {
             boolean isHovered = restartButtonBounds.contains(mousePosition);
             drawButton(g2, restartButtonBounds, "Powrót do mapy", isHovered);
@@ -248,7 +255,7 @@ public class TreatmentMinigame {
     public void show() {
         resetGame();
     }
-
+// reset minigry
     private void resetGame() {
         phase = Phase.ONE;
         sequenceStep = 0;
@@ -259,7 +266,7 @@ public class TreatmentMinigame {
         buttonLabels = new String[]{"Bół głowy", "Oparzenie", "Skaleczenie","Grypa"};
         stopTimer();
     }
-
+//Powrót do gry
     private void returnToGame() {
         resetGame();
         gp.gameState = gp.playState;

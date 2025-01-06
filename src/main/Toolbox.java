@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public class Toolbox {
-
+//Scalowanie PNG
     public BufferedImage scaleImage(BufferedImage original, int width, int height)
     {
         BufferedImage scaledImage = new BufferedImage(width,height,original.getType());
